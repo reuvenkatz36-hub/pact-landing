@@ -60,10 +60,15 @@ export default function PactLanding() {
           0%   { opacity: 0; transform: translateY(16px); }
           100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes glow-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.4); }
+          50%      { box-shadow: 0 0 0 12px rgba(255, 184, 0, 0); }
+        }
 
         .pulse-dot   { animation: pulse-dot 1.6s ease-in-out infinite; }
         .float-slow  { animation: float-slow 5s ease-in-out infinite; }
         .pop-in      { animation: pop-in 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+        .glow-pulse  { animation: glow-pulse 2s ease-in-out infinite; }
         .pop-1 { animation-delay: 0.05s; } .pop-2 { animation-delay: 0.15s; }
         .pop-3 { animation-delay: 0.25s; } .pop-4 { animation-delay: 0.35s; }
         .pop-5 { animation-delay: 0.45s; } .pop-6 { animation-delay: 0.55s; }
@@ -85,12 +90,19 @@ export default function PactLanding() {
           color: transparent;
         }
 
+        .gold-text {
+          background: linear-gradient(135deg, #FFB800 0%, #FF6B47 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; text-align: center !important; }
           .hero-grid h1 { font-size: 52px !important; }
           .hero-form { justify-content: center !important; }
+          .founding-card { margin: 24px auto 0 !important; }
           .steps-grid { grid-template-columns: 1fr !important; }
-          .flex-grid { grid-template-columns: 1fr !important; }
           .h1-problem { font-size: 32px !important; }
           .h1-final { font-size: 48px !important; }
         }
@@ -123,7 +135,7 @@ export default function PactLanding() {
             padding: '10px 20px', borderRadius: '999px', fontSize: '13px',
             fontWeight: 800, color: 'white', background: '#0F101A', textDecoration: 'none',
           }}>
-            Get access →
+            Claim spot →
           </a>
         </nav>
 
@@ -133,19 +145,22 @@ export default function PactLanding() {
             display: 'grid', gridTemplateColumns: '1.1fr 1fr', alignItems: 'center', gap: '48px',
           }}>
             <div>
-              <div className="pop-in pop-1" style={{
+              {/* Founding 50 badge */}
+              <div className="pop-in pop-1 glow-pulse" style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
-                padding: '6px 12px', borderRadius: '999px', background: '#0F101A',
+                padding: '8px 14px', borderRadius: '999px',
+                background: 'linear-gradient(135deg, #FFB800 0%, #FF6B47 100%)',
+                boxShadow: '0 4px 16px rgba(255, 184, 0, 0.35)',
               }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00D26A' }} className="pulse-dot" />
+                <span style={{ fontSize: '14px' }}>🏆</span>
                 <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.14em', color: 'white', textTransform: 'uppercase' }}>
-                  Launching Nov 14, 2026
+                  First 50 · Founding members
                 </span>
               </div>
 
               <h1 className="pop-in pop-2" style={{
                 fontWeight: 800, color: '#0F101A', letterSpacing: '-0.025em',
-                lineHeight: 0.95, marginTop: '24px', fontSize: '76px',
+                lineHeight: 0.95, marginTop: '20px', fontSize: '76px',
               }}>
                 From group chat<br />
                 to <span className="gradient-text">plane tickets.</span>
@@ -159,7 +174,26 @@ export default function PactLanding() {
                 You've gone zero. <span style={{ color: '#0F101A', fontWeight: 700 }}>Pact closes the loop.</span>
               </p>
 
-              <div className="pop-in pop-4" id="signup" style={{ marginTop: '32px' }}>
+              {/* Founding 50 perks card */}
+              <div className="pop-in pop-3 founding-card" style={{
+                marginTop: '24px', maxWidth: '480px',
+                padding: '16px 18px', borderRadius: '16px',
+                background: 'linear-gradient(135deg, rgba(255,184,0,0.08) 0%, rgba(255,107,71,0.06) 100%)',
+                border: '1px solid rgba(255, 184, 0, 0.3)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '11px' }}>✨</span>
+                  <span style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase' }} className="gold-text">
+                    What the first 50 get
+                  </span>
+                </div>
+                <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#0F101A', lineHeight: 1.55 }}>
+                  🏆 <strong>Founding Member badge</strong> — permanent in-app status. <span style={{ color: '#6B6D7A', fontWeight: 500 }}>Can't be bought. Only earned.</span><br />
+                  ✨ <strong>Lifetime free access</strong> — never pay a cent, forever.
+                </div>
+              </div>
+
+              <div className="pop-in pop-4" id="signup" style={{ marginTop: '24px' }}>
                 {!submitted ? (
                   <>
                     <div className="hero-form" style={{
@@ -192,7 +226,7 @@ export default function PactLanding() {
                           opacity: submitting ? 0.7 : 1,
                         }}
                       >
-                        {submitting ? '...' : 'Get early access'}
+                        {submitting ? '...' : 'Claim my spot'}
                       </button>
                     </div>
                     {error && (
@@ -210,7 +244,7 @@ export default function PactLanding() {
                         ))}
                       </div>
                       <span style={{ fontSize: '12px', fontWeight: 700, color: '#6B6D7A' }}>
-                        Be one of the first <span style={{ color: '#0F101A' }}>500</span> · no spam
+                        Spots fill once we hit <span style={{ color: '#0F101A' }}>50</span> · no spam
                       </span>
                     </div>
                   </>
@@ -218,14 +252,14 @@ export default function PactLanding() {
                   <div style={{
                     maxWidth: '440px', padding: '16px', borderRadius: '16px',
                     display: 'flex', alignItems: 'center', gap: '12px',
-                    background: 'linear-gradient(135deg, #00D26A 0%, #00B85C 100%)',
-                    boxShadow: '0 8px 24px rgba(0,210,106,0.3)',
+                    background: 'linear-gradient(135deg, #FFB800 0%, #FF6B47 100%)',
+                    boxShadow: '0 8px 24px rgba(255,184,0,0.3)',
                   }}>
-                    <div style={{ fontSize: '28px' }}>🎉</div>
+                    <div style={{ fontSize: '28px' }}>🏆</div>
                     <div>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: 'white' }}>You're in.</div>
-                      <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
-                        We'll send you the app on Nov 14. Start saving with your crew.
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: 'white' }}>You're a Founding Member.</div>
+                      <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
+                        Lifetime access locked in. We'll send you the app on Nov 14.
                       </div>
                     </div>
                   </div>
@@ -399,19 +433,34 @@ export default function PactLanding() {
           </div>
         </section>
 
-        {/* Final CTA */}
+        {/* Final CTA with Founding 50 emphasis */}
         <section style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '96px 24px', textAlign: 'center' }}>
+          {/* Trophy badge */}
+          <div className="pop-in pop-1" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            padding: '8px 16px', borderRadius: '999px',
+            background: 'linear-gradient(135deg, #FFB800 0%, #FF6B47 100%)',
+            boxShadow: '0 8px 24px rgba(255,184,0,0.3)', marginBottom: '20px',
+          }}>
+            <span style={{ fontSize: '16px' }}>🏆</span>
+            <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.14em', color: 'white', textTransform: 'uppercase' }}>
+              First 50 only · Lifetime free
+            </span>
+          </div>
+
           <div className="pop-in pop-1 h1-final" style={{
             fontWeight: 800, color: '#0F101A', letterSpacing: '-0.025em', lineHeight: 0.95, fontSize: '64px',
           }}>
-            Make the<br />
-            <span className="gradient-text">pact.</span>
+            Be a<br />
+            <span className="gold-text">Founding Member.</span>
           </div>
           <div className="pop-in pop-2" style={{
             fontSize: '16px', color: '#6B6D7A', marginTop: '20px',
-            fontWeight: 500, maxWidth: '480px', margin: '20px auto 0',
+            fontWeight: 500, maxWidth: '520px', margin: '20px auto 0',
           }}>
-            Free during early access. Be in the first 500 to lock down launch day.
+            The first 50 to claim a spot get a permanent Founding Member badge in the app
+            <strong style={{ color: '#0F101A' }}> (un-buyable, only earned)</strong> + lifetime free access.
+            Once we hit 50 — gone forever.
           </div>
 
           {!submitted && (
@@ -445,7 +494,7 @@ export default function PactLanding() {
                     opacity: submitting ? 0.7 : 1,
                   }}
                 >
-                  {submitting ? '...' : 'Join the waitlist'}
+                  {submitting ? '...' : 'Claim my spot'}
                 </button>
               </div>
             </div>
@@ -471,4 +520,3 @@ export default function PactLanding() {
     </>
   );
 }
-
